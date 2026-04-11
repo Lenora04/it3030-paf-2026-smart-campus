@@ -19,13 +19,18 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    // Add this field to User.java
+    @Column
+    private String password;
+
+    // Also make googleId nullable since normal users won't have it
+    @Column
+    private String googleId;  // remove nullable = false
+
     @Column(nullable = false)
     private String name;
 
     private String profilePicture;
-
-    @Column(nullable = false)
-    private String googleId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
