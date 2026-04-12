@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import api from '../api/axiosInstance';
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export default function LoginPage() {
   const { loginWithGoogle } = useAuth();
@@ -47,12 +49,20 @@ export default function LoginPage() {
     }
   };
 
+  const [searchParams] = useSearchParams();
+  const sessionExpired = searchParams.get('expired') === 'true';
+
   return (
     <div style={styles.container}>
       <div style={styles.card}>
         <h1 style={styles.title}>🎓 Smart Campus</h1>
         <p style={styles.subtitle}>Operations Hub</p>
-
+        {sessionExpired && (
+          <div style={{ background: '#fef2f2', color: '#dc2626', padding: '10px 14px',
+            borderRadius: 8, marginBottom: 16, fontSize: 13, textAlign: 'left' }}>
+            ⚠️ Your session expired. Please login again.
+          </div>
+        )}
         <div style={styles.tabs}>
           <button
             style={{ ...styles.tab, ...(isRegister ? {} : styles.activeTab) }}

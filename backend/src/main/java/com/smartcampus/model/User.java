@@ -19,13 +19,11 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    // Add this field to User.java
     @Column
     private String password;
 
-    // Also make googleId nullable since normal users won't have it
-    @Column
-    private String googleId;  // remove nullable = false
+    @Column(name = "google_id", nullable = true)
+    private String googleId;  
 
     @Column(nullable = false)
     private String name;

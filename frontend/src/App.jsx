@@ -3,19 +3,22 @@ import { useAuth } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import NotificationsPage from './pages/NotificationsPage';
+import LoadingSpinner from './components/LoadingSpinner';
 
-function ProtectedRoute({ children }) {
-  const { user, loading } = useAuth();
-  if (loading) return <div>Loading...</div>;
-  return user ? children : <Navigate to="/login" />;
-}
 
 function AdminRoute({ children }) {
   const { user, loading } = useAuth();
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingSpinner />;
   if (!user) return <Navigate to="/login" />;
   if (user.role !== 'ADMIN') return <Navigate to="/dashboard" />;
   return children;
+}
+
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <LoadingSpinner />;
+  return user ? children : <Navigate to="/login" />;
 }
 
 export default function App() {
@@ -29,6 +32,9 @@ export default function App() {
         <AdminRoute><AdminDashboard /></AdminRoute>
       } />
       <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="/notifications" element={
+        <ProtectedRoute><NotificationsPage /></ProtectedRoute>
+      } />
     </Routes>
   );
 }

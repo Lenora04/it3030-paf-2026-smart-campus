@@ -27,15 +27,15 @@ public class NotificationController {
         return ResponseEntity.ok(notificationService.getUserNotifications(getCurrentUser().getId()));
     }
 
-    @GetMapping("/unread")
-    public ResponseEntity<List<Notification>> getUnread() {
-        return ResponseEntity.ok(notificationService.getUnreadNotifications(getCurrentUser().getId()));
-    }
-
     @GetMapping("/unread/count")
     public ResponseEntity<Map<String, Long>> getUnreadCount() {
         long count = notificationService.getUnreadCount(getCurrentUser().getId());
         return ResponseEntity.ok(Map.of("count", count));
+    }
+
+    @GetMapping("/unread")
+    public ResponseEntity<List<Notification>> getUnread() {
+        return ResponseEntity.ok(notificationService.getUnreadNotifications(getCurrentUser().getId()));
     }
 
     @PatchMapping("/{id}/read")
