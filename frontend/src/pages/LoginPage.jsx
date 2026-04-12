@@ -10,6 +10,8 @@ import { useSearchParams } from 'react-router-dom';
 export default function LoginPage() {
   const { loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const sessionExpired = searchParams.get('expired') === 'true';
   const [isRegister, setIsRegister] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
@@ -48,9 +50,6 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
-
-  const [searchParams] = useSearchParams();
-  const sessionExpired = searchParams.get('expired') === 'true';
 
   return (
     <div style={styles.container}>
@@ -106,7 +105,11 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div style={styles.divider}><span>or</span></div>
+        <div style={styles.divider}>
+          <div style={styles.dividerLine} />
+          <span>or continue with</span>
+          <div style={styles.dividerLine} />
+        </div>
 
         <button style={styles.googleBtn} onClick={() => handleGoogleLogin()}>
           <img
@@ -153,6 +156,9 @@ const styles = {
   divider: {
     display: 'flex', alignItems: 'center', gap: 12,
     margin: '20px 0', color: '#9ca3af', fontSize: 13,
+  },
+  dividerLine: {
+    flex: 1, height: 1, background: '#e5e7eb',
   },
   googleBtn: {
     display: 'flex', alignItems: 'center', justifyContent: 'center',
