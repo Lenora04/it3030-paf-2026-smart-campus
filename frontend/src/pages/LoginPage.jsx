@@ -1,3 +1,5 @@
+
+
 import { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +10,7 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export default function LoginPage() {
-  const { loginWithGoogle } = useAuth();
+  const { loginWithGoogle, loginWithCredentials } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const sessionExpired = searchParams.get('expired') === 'true';
@@ -41,9 +43,8 @@ export default function LoginPage() {
       const endpoint = isRegister ? '/auth/register' : '/auth/login';
       const res = await api.post(endpoint, form);
       const { token, user } = res.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-      redirectAfterLogin(user);
+      const userData = loginWithCredentials(token, user);
+      redirectAfterLogin(userData);
     } catch (err) {
       setError(err.response?.data?.error || 'Something went wrong');
     } finally {
@@ -167,3 +168,5 @@ const styles = {
     fontSize: 14, fontWeight: 600, color: '#333',
   },
 };
+
+

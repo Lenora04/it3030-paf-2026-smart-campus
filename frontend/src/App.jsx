@@ -1,11 +1,20 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
+import { useApp } from './context/AppContext';
+import { ToastContainer } from 'react-toastify';        
+import 'react-toastify/dist/ReactToastify.css';        
+
+// Pages
 import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import NotificationsPage from './pages/NotificationsPage';
+import MyTicketsPage from './pages/MyTicketsPage';
+import TicketDetailPage from './pages/TicketDetailPage';
+import SubmitTicketPage from './pages/SubmitTicketPage';
 import LoadingSpinner from './components/LoadingSpinner';
-
+import './styles/global.css';
+import './App.css';
 
 function AdminRoute({ children }) {
   const { user, loading } = useAuth();
@@ -21,20 +30,41 @@ function ProtectedRoute({ children }) {
   return user ? children : <Navigate to="/login" />;
 }
 
-export default function App() {
+const App = () => {
+  const { toast } = useApp();
+
   return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/dashboard" element={
-        <ProtectedRoute><Dashboard /></ProtectedRoute>
-      } />
-      <Route path="/admin/dashboard" element={
-        <AdminRoute><AdminDashboard /></AdminRoute>
-      } />
-      <Route path="/" element={<Navigate to="/dashboard" />} />
-      <Route path="/notifications" element={
-        <ProtectedRoute><NotificationsPage /></ProtectedRoute>
-      } />
-    </Routes>
+    <div className="app-layout">
+      <main className="app-main">
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
+          <Route path="/raise-ticket" element={<ProtectedRoute><SubmitTicketPage /></ProtectedRoute>} />
+          <Route path="/tickets" element={<ProtectedRoute><MyTicketsPage /></ProtectedRoute>} />
+          <Route path="/tickets/:id" element={<ProtectedRoute><TicketDetailPage /></ProtectedRoute>} />
+          <Route path="/admin/dashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        </Routes>
+      </main>
+
+      
+      {toast && (
+        <div className={`toast ${toast.type}`}>{toast.message}</div>
+      )}
+
+      
+      <ToastContainer
+        position="top-right"
+        autoClose={6000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+      />
+    </div>
   );
-}
+};
+
+export default App;

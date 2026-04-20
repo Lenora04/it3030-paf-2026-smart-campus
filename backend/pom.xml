@@ -105,6 +105,16 @@
 		<artifactId>mockito-junit-jupiter</artifactId>
 		<scope>test</scope>
 	</dependency>
+	<!-- Thumbnailator: image resizing & compression -->
+	<dependency>
+		<groupId>net.coobird</groupId>
+		<artifactId>thumbnailator</artifactId>
+		<version>0.4.20</version>
+	</dependency> 
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-mail</artifactId>
+	</dependency>
 	</dependencies>
 
 	<build>
