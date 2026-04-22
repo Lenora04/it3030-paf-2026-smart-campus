@@ -23,7 +23,6 @@ export function AuthProvider({ children }) {
       googleId: googleUser.sub,
       picture: googleUser.picture,
     });
-
     const { token, user: userData } = res.data;
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(userData));
@@ -31,6 +30,7 @@ export function AuthProvider({ children }) {
     return userData;
   };
 
+  
   const loginWithCredentials = (token, userData) => {
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(userData));

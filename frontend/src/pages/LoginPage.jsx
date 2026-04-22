@@ -1,3 +1,5 @@
+
+
 import { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
@@ -36,21 +38,21 @@ export default function LoginPage() {
   });
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError('');
-  setLoading(true);
-  try {
-    const endpoint = isRegister ? '/auth/register' : '/auth/login';
-    const res = await api.post(endpoint, form);
-    const { token, user } = res.data;
-    const userData = loginWithCredentials(token, user); // ← use this instead
-    redirectAfterLogin(userData);
-  } catch (err) {
-    setError(err.response?.data?.error || 'Something went wrong');
-  } finally {
-    setLoading(false);
-  }
-};
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      const endpoint = isRegister ? '/auth/register' : '/auth/login';
+      const res = await api.post(endpoint, form);
+      const { token, user } = res.data;
+      const userData = loginWithCredentials(token, user);
+      redirectAfterLogin(userData);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div style={styles.container}>
@@ -168,3 +170,5 @@ const styles = {
     fontSize: 14, fontWeight: 600, color: '#333',
   },
 };
+
+

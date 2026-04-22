@@ -36,9 +36,9 @@ public class Notification {
     @Builder.Default
     private boolean isRead = false;
 
-    private Long referenceId;      // e.g. bookingId or ticketId
+    private Long referenceId;      
 
-    private String referenceType;  // e.g. "BOOKING" or "TICKET"
+    private String referenceType;  
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
